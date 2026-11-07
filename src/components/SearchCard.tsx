@@ -16,7 +16,7 @@ export function SearchCard({ onSearch }: SearchFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="search-form" onSubmit={handleSubmit}>
       <input
         type="text"
         placeholder="Ex: chicken, rice"

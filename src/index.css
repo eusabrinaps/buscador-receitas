@@ -212,3 +212,26 @@ main {
     padding-top: 2rem;
   }
 }
+
+.detail { max-width: 760px; }
+.detail h1 { letter-spacing: -0.02em; }
+.detail__image {
+  width: 100%;
+  border-radius: var(--radius);
+  display: block;
+}
+.detail__meta { color: var(--muted); }
+.back-link {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+.ingredients, .steps { padding-left: 1.25rem; }
+.ingredients li, .steps li { margin-bottom: 0.5rem; }
+
+.recipe-card {
+  color: inherit;
+  text-decoration: none;
+}
