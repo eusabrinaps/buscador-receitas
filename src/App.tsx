@@ -1,27 +1,40 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { findByIngredients } from "./api/spoonacular";
-import { RecipeCard } from "./components/RecipeCard";
+import { SearchCard } from "./components/SearchCard";
+import { RecipeListCard } from "./components/RecipeListCard";
 import type { Recipe } from "./types/recipe";
 
-export default function App() {
-  const [recipe, setRecipe] = useState<Recipe | null>(null);
+type Status = "idle" | "loading" | "success" | "error";
 
-  useEffect(() => {
-    async function carregar() {
-      try {
-        const dados = await findByIngredients("steak");
-        setRecipe(dados[0]);
-      } catch (error) {
-        console.error(error);
-      }
+export default function App() {
+  const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [status, setStatus] = useState<Status>("idle");
+
+  async function handleSearch(query: string) {  
+    setStatus("loading");
+    
+    try {
+      const dados = await findByIngredients(query);
+      setRecipes(dados);
+      setStatus("success");
+    } catch (error) {
+      console.error(error);
+      setStatus("error");
     }
-    carregar();
-  }, []);
+  }
 
   return (
     <main>
       <h1>Buscador de Receitas</h1>
-      {recipe && <RecipeCard recipe={recipe} />}
+      <SearchCard onSearch={handleSearch} />
+
+      {status === "loading" && <p>Carregando...</p>}
+      {status === "error" && <p>Algo deu errado. Tente novamente.</p>}
+      {status === "success" && recipes.length === 0 && (
+        <p>Nenhuma receita encontrada.</p>
+      )}
+
+      <RecipeListCard recipes={recipes} />
     </main>
   );
 }
